@@ -37,3 +37,5 @@ try {
 catch (ApplicationException e) {
     Console.WriteLine(e.Message);
 }
+
+/* Removed duplicate definition of MysteryStack2 to resolve namespace conflict. */
