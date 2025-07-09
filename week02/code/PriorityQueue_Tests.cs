@@ -1,69 +1,75 @@
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// TODO Problem 2 - Write and run test cases and fix the code to match requirements.
+
 [TestClass]
+
 public class PriorityQueueTests
 {
     [TestMethod]
-    // Scenario: Enqueue one item and dequeue it
-    // Expected Result: Should return the same person
-    // Defect(s) Found: None
-    public void TestPriorityQueue_EnqueueDequeue_Single()
+    // Scenario: Enqueue multiple items with different priorities and dequeue all
+    // Expected Result: Highest priority items dequeued first; FIFO order among same priorities
+    // Defect(s) Found: 
+    public void TestPriorityQueue_BasicPriorityOrdering()
     {
-        var queue = new PriorityQueue();
-        var person = new Person("Alice", 1);
+        var pq = new PriorityQueue();
+        pq.Enqueue("Low", 1);
+        pq.Enqueue("High", 5);
+        pq.Enqueue("Medium", 3);
+        pq.Enqueue("High2", 5);
 
-        queue.Enqueue(person, priority: 10);
-        var dequeued = queue.Dequeue();
-
-        Assert.AreEqual(person, dequeued);
+        Assert.AreEqual("High", pq.Dequeue());
+        Assert.AreEqual("High2", pq.Dequeue());
+        Assert.AreEqual("Medium", pq.Dequeue());
+        Assert.AreEqual("Low", pq.Dequeue());
     }
 
     [TestMethod]
-    // Scenario: Enqueue multiple items with different priorities
-    // Expected Result: Highest priority person should be dequeued first
-    // Defect(s) Found: None
-    public void TestPriorityQueue_EnqueueDequeue_Multiple()
+    // Scenario: Enqueue items with same priority and ensure FIFO ordering is preserved
+    // Expected Result: Items dequeued in the same order they were enqueued
+    // Defect(s) Found: 
+    public void TestPriorityQueue_FIFOWhenPriorityEqual()
     {
-        var queue = new PriorityQueue();
-        var low = new Person("Low", 1);
-        var medium = new Person("Medium", 1);
-        var high = new Person("High", 1);
+        var pq = new PriorityQueue();
+        pq.Enqueue("A", 3);
+        pq.Enqueue("B", 3);
+        pq.Enqueue("C", 3);
 
-        queue.Enqueue(low, priority: 1);
-        queue.Enqueue(medium, priority: 5);
-        queue.Enqueue(high, priority: 10);
-
-        Assert.AreEqual(high, queue.Dequeue());
-        Assert.AreEqual(medium, queue.Dequeue());
-        Assert.AreEqual(low, queue.Dequeue());
+        Assert.AreEqual("A", pq.Dequeue());
+        Assert.AreEqual("B", pq.Dequeue());
+        Assert.AreEqual("C", pq.Dequeue());
     }
 
     [TestMethod]
-    // Scenario: Dequeue from an empty queue
-    // Expected Result: Should throw InvalidOperationException
-    // Defect(s) Found: None
-    public void TestPriorityQueue_Dequeue_Empty()
+    // Scenario: Try to dequeue from an empty queue
+    // Expected Result: InvalidOperationException is thrown
+    // Defect(s) Found: 
+    public void TestPriorityQueue_EmptyQueueThrows()
     {
-        var queue = new PriorityQueue();
+        var pq = new PriorityQueue();
 
-        Assert.ThrowsException<InvalidOperationException>(() => queue.Dequeue());
+        Assert.ThrowsException<InvalidOperationException>(() => pq.Dequeue());
+    }
+    [TestMethod]
+    // Scenario: 
+    // Expected Result: 
+    // Defect(s) Found: 
+    public void TestPriorityQueue_1()
+    {
+        var priorityQueue = new PriorityQueue();
+        Assert.Fail("Implement the test case and then remove this.");
     }
 
     [TestMethod]
-    // Scenario: Count reflects correct number of elements
-    // Expected Result: Count should be accurate before and after dequeue
-    public void TestPriorityQueue_Count()
+    // Scenario: 
+    // Expected Result: 
+    // Defect(s) Found: 
+    public void TestPriorityQueue_2()
     {
-        var queue = new PriorityQueue();
-        queue.Enqueue(new Person("A", 1), 2);
-        queue.Enqueue(new Person("B", 1), 3);
-
-        Assert.AreEqual(2, queue.Count);
-
-        queue.Dequeue();
-        Assert.AreEqual(1, queue.Count);
-
-        queue.Dequeue();
-        Assert.AreEqual(0, queue.Count);
+        var priorityQueue = new PriorityQueue();
+        Assert.Fail("Implement the test case and then remove this.");
     }
+
+    // Add more test cases as needed below.
 }

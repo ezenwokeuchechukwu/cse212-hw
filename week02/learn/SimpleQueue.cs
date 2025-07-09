@@ -1,4 +1,4 @@
-﻿public class SimpleQueue {
+﻿﻿public class SimpleQueue {
     public static void Run() {
         // Test Cases
 
@@ -10,6 +10,8 @@
         queue.Enqueue(100);
         var value = queue.Dequeue();
         Console.WriteLine(value);
+        // Defect(s) Found:
+
         Console.WriteLine("------------");
 
         // Test 2
@@ -26,6 +28,8 @@
         Console.WriteLine(value);
         value = queue.Dequeue();
         Console.WriteLine(value);
+        // Defect(s) Found: 
+
         Console.WriteLine("------------");
 
         // Test 3
@@ -40,6 +44,7 @@
         catch (IndexOutOfRangeException) {
             Console.WriteLine("I got the exception as expected.");
         }
+        // Defect(s) Found: 
     }
 
     private readonly List<int> _queue = new();
@@ -47,20 +52,22 @@
     /// <summary>
     /// Enqueue the value provided into the queue
     /// </summary>
+    /// <param name="value">Integer value to add to the queue</param>
     private void Enqueue(int value) {
-        _queue.Add(value); // Correct FIFO behavior
+        _queue.Insert(0, value);
     }
 
     /// <summary>
     /// Dequeue the next value and return it
     /// </summary>
     /// <exception cref="IndexOutOfRangeException">If queue is empty</exception>
+    /// <returns>First integer in the queue</returns>
     private int Dequeue() {
-        if (_queue.Count == 0)
+        if (_queue.Count <= 0)
             throw new IndexOutOfRangeException();
 
-        var value = _queue[0];
-        _queue.RemoveAt(0);
+        var value = _queue[1];
+        _queue.RemoveAt(1);
         return value;
     }
 }

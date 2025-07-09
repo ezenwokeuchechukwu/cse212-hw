@@ -1,4 +1,4 @@
-﻿﻿public class SimpleQueueSolution {
+﻿﻿﻿public class SimpleQueueSolution {
     public static void Run() {
         // Test Cases
 

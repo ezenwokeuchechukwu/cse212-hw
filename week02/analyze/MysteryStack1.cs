@@ -1,16 +1,13 @@
-﻿public static class MysteryStack1 {
-    public static bool Run(string text) {
-        // Clean input: remove spaces and make lowercase
-        var cleaned = new string(text.ToLower().Where(char.IsLetterOrDigit).ToArray());
-
+﻿﻿public static class MysteryStack1 {
+    public static string Run(string text) {
         var stack = new Stack<char>();
-        foreach (var letter in cleaned)
+        foreach (var letter in text)
             stack.Push(letter);
 
-        var reversed = "";
+        var result = "";
         while (stack.Count > 0)
-            reversed += stack.Pop();
+            result += stack.Pop();
 
-        return cleaned == reversed;
+        return result;
     }
 }
