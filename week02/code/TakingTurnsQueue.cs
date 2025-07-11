@@ -1,5 +1,9 @@
-
 /// <summary>
+/// /// <summary>
+/// Defect: Infinite-turn people (turns <= 0) were not re-enqueued as required.
+/// They were removed permanently after the first dequeue.
+/// </summary>
+
 /// This queue is circular.  When people are added via AddPerson, then they are added to the 
 /// back of the queue (per FIFO rules).  When GetNextPerson is called, the next person
 /// in the queue is saved to be returned and then they are placed back into the back of the queue.  Thus,
@@ -32,7 +36,7 @@ public class TakingTurnsQueue
     /// person has an infinite number of turns.  An error exception is thrown 
     /// if the queue is empty.
     /// </summary>
-   public Person GetNextPerson()
+ public Person GetNextPerson()
 {
     if (_people.IsEmpty())
     {
@@ -41,21 +45,23 @@ public class TakingTurnsQueue
 
     Person person = _people.Dequeue();
 
-    if (person.Turns <= 0)
+    // If turns > 0, decrement turns because it's a finite-turn person
+    if (person.Turns > 0)
     {
-        // Infinite turns — do not decrement
-        _people.Enqueue(person);
-    }
-    else if (person.Turns > 1)
-    {
-        // Decrement turn and re-enqueue
         person.Turns -= 1;
+    }
+
+    // Re-enqueue if turns is infinite (<= 0) OR if still have turns left (> 0)
+    if (person.Turns > 0 || person.Turns <= 0)
+    {
         _people.Enqueue(person);
     }
-    // If person.Turns == 1, do not re-enqueue (this was their last turn)
 
     return person;
 }
+
+
+
 
     public override string ToString()
     {

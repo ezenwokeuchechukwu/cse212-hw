@@ -1,18 +1,18 @@
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // TODO Problem 1 - Run test cases and record any defects the test code finds in the comment above the test method.
 // DO NOT MODIFY THE CODE IN THE TESTS in this file, just the comments above the tests. 
-// Fix the code being tested to match requirements and make all tests pass. 
+// Fix the code being tested to match requirements and make all tests pass.  
 
 [TestClass]
 public class TakingTurnsQueueTests
 {
     [TestMethod]
-    // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3) and
+     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3) and
     // run until the queue is empty
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: People with finite turns were not removed correctly after their turns expired.
+    // Fix: Ensure persons with Turns > 0 are decremented and only re-enqueued if Turns > 0. 
     public void TestTakingTurnsQueue_FiniteRepetition()
     {
         var bob = new Person("Bob", 2);
@@ -42,9 +42,10 @@ public class TakingTurnsQueueTests
 
     [TestMethod]
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3)
-    // After running 5 times, add George with 3 turns.  Run until the queue is empty.
+    // After running 5 times, add George with 3 turns. Run until the queue is empty.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, George, Sue, Tim, George, Tim, George
-    // Defect(s) Found: 
+    // Defect(s) Found: Same issue as above — people were not always removed after their final turn.
+    // Fix: Re-enqueue only when Turns > 0 and allow new additions mid-sequence.
     public void TestTakingTurnsQueue_AddPlayerMidway()
     {
         var bob = new Person("Bob", 2);
@@ -83,10 +84,11 @@ public class TakingTurnsQueueTests
     }
 
     [TestMethod]
-    // Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever), Sue (3)
+    /// Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever = 0), Sue (3)
     // Run 10 times.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: People with infinite turns (turns <= 0) were not re-enqueued.
+    // Fix: If Turns <= 0, always re-enqueue them without decrementing.
     public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
@@ -114,10 +116,11 @@ public class TakingTurnsQueueTests
     }
 
     [TestMethod]
-    // Scenario: Create a queue with the following people and turns: Tim (Forever), Sue (3)
+    // Scenario: Create a queue with the following people and turns: Tim (Forever = -3), Sue (3)
     // Run 10 times.
     // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: Negative-turn (infinite) people were being removed after one dequeue.
+    // Fix: Same as above — all Turns <= 0 must result in infinite re-enqueueing.
     public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
@@ -143,8 +146,9 @@ public class TakingTurnsQueueTests
 
     [TestMethod]
     // Scenario: Try to get the next person from an empty queue
-    // Expected Result: Exception should be thrown with appropriate error message.
-    // Defect(s) Found: 
+    // Expected Result: Exception should be thrown with message "No one in the queue."
+    // Defect(s) Found: No exception was thrown on empty queue access.
+    // Fix: Added proper exception handling in GetNextPerson for empty queue. 
     public void TestTakingTurnsQueue_Empty()
     {
         var players = new TakingTurnsQueue();

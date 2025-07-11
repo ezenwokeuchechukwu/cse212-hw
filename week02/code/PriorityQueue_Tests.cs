@@ -1,75 +1,65 @@
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-// TODO Problem 2 - Write and run test cases and fix the code to match requirements.
+using System;
 
 [TestClass]
-
 public class PriorityQueueTests
 {
     [TestMethod]
-    // Scenario: Enqueue multiple items with different priorities and dequeue all
-    // Expected Result: Highest priority items dequeued first; FIFO order among same priorities
-    // Defect(s) Found: 
-    public void TestPriorityQueue_BasicPriorityOrdering()
-    {
-        var pq = new PriorityQueue();
-        pq.Enqueue("Low", 1);
-        pq.Enqueue("High", 5);
-        pq.Enqueue("Medium", 3);
-        pq.Enqueue("High2", 5);
-
-        Assert.AreEqual("High", pq.Dequeue());
-        Assert.AreEqual("High2", pq.Dequeue());
-        Assert.AreEqual("Medium", pq.Dequeue());
-        Assert.AreEqual("Low", pq.Dequeue());
-    }
-
-    [TestMethod]
-    // Scenario: Enqueue items with same priority and ensure FIFO ordering is preserved
-    // Expected Result: Items dequeued in the same order they were enqueued
-    // Defect(s) Found: 
-    public void TestPriorityQueue_FIFOWhenPriorityEqual()
-    {
-        var pq = new PriorityQueue();
-        pq.Enqueue("A", 3);
-        pq.Enqueue("B", 3);
-        pq.Enqueue("C", 3);
-
-        Assert.AreEqual("A", pq.Dequeue());
-        Assert.AreEqual("B", pq.Dequeue());
-        Assert.AreEqual("C", pq.Dequeue());
-    }
-
-    [TestMethod]
-    // Scenario: Try to dequeue from an empty queue
-    // Expected Result: InvalidOperationException is thrown
-    // Defect(s) Found: 
-    public void TestPriorityQueue_EmptyQueueThrows()
-    {
-        var pq = new PriorityQueue();
-
-        Assert.ThrowsException<InvalidOperationException>(() => pq.Dequeue());
-    }
-    [TestMethod]
-    // Scenario: 
-    // Expected Result: 
+    // Scenario: Enqueue several items with different priorities and dequeue them one by one.
+    // Expected Result: Items are dequeued in order from highest to lowest priority.
     // Defect(s) Found: 
     public void TestPriorityQueue_1()
     {
-        var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        var pq = new PriorityQueue();
+        pq.Enqueue("low", 1);
+        pq.Enqueue("medium", 5);
+        pq.Enqueue("high", 10);
+
+        Assert.AreEqual("high", pq.Dequeue());
+        Assert.AreEqual("medium", pq.Dequeue());
+        Assert.AreEqual("low", pq.Dequeue());
     }
 
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
+    // Scenario: Enqueue multiple items with the same priority and dequeue them.
+    // Expected Result: Items with the same priority are dequeued in FIFO order.
     // Defect(s) Found: 
     public void TestPriorityQueue_2()
     {
-        var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        var pq = new PriorityQueue();
+        pq.Enqueue("first", 3);
+        pq.Enqueue("second", 3);
+        pq.Enqueue("third", 3);
+
+        Assert.AreEqual("first", pq.Dequeue());
+        Assert.AreEqual("second", pq.Dequeue());
+        Assert.AreEqual("third", pq.Dequeue());
     }
 
-    // Add more test cases as needed below.
+    [TestMethod]
+    // Scenario: Dequeue from an empty queue.
+    // Expected Result: Throws InvalidOperationException with appropriate message.
+    // Defect(s) Found: 
+    public void TestPriorityQueue_Empty()
+    {
+        var pq = new PriorityQueue();
+
+        var ex = Assert.ThrowsException<InvalidOperationException>(() => pq.Dequeue());
+        Assert.AreEqual("The queue is empty.", ex.Message);
+    }
+
+    [TestMethod]
+    // Scenario: Enqueue items and verify ToString() output.
+    // Expected Result: ToString returns all items in the queue in enqueue order.
+    // Defect(s) Found: 
+    public void TestPriorityQueue_ToString()
+    {
+        var pq = new PriorityQueue();
+        pq.Enqueue("a", 2);
+        pq.Enqueue("b", 4);
+
+        var str = pq.ToString();
+        Assert.IsTrue(str.Contains("a (Pri:2)"));
+        Assert.IsTrue(str.Contains("b (Pri:4)"));
+    }
 }
