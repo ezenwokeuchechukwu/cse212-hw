@@ -329,6 +329,8 @@ public class MazeTests
     }
 }
 
+
+
 [TestClass]
 public class EarthquakeDailySummaryTests
 {
@@ -344,3 +346,5 @@ public class EarthquakeDailySummaryTests
         }
     }
 }
+
+

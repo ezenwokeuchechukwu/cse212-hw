@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public class Translator
 {
     public static void Run()
@@ -6,35 +9,38 @@ public class Translator
         englishToGerman.AddWord("House", "Haus");
         englishToGerman.AddWord("Car", "Auto");
         englishToGerman.AddWord("Plane", "Flugzeug");
-        Console.WriteLine(englishToGerman.Translate("Car")); // Auto
-        Console.WriteLine(englishToGerman.Translate("Plane")); // Flugzeug
-        Console.WriteLine(englishToGerman.Translate("Train")); // ???
+
+        Console.WriteLine(englishToGerman.Translate("Car"));    // Output: Auto
+        Console.WriteLine(englishToGerman.Translate("Plane"));  // Output: Flugzeug
+        Console.WriteLine(englishToGerman.Translate("Train"));  // Output: ???
     }
 
+    // Dictionary to store word translations
     private Dictionary<string, string> _words = new();
 
     /// <summary>
-    /// Add the translation from 'from_word' to 'to_word'
-    /// For example, in a english to german dictionary:
-    /// 
-    /// my_translator.AddWord("book","buch")
+    /// Adds a translation from 'fromWord' to 'toWord' in the dictionary.
+    /// For example, in an English to German dictionary:
+    /// AddWord("Book", "Buch") will store the translation of "Book" as "Buch".
     /// </summary>
-    /// <param name="fromWord">The word to translate from</param>
-    /// <param name="toWord">The word to translate to</param>
-    /// <returns>fixed array of divisors</returns>
+    /// <param name="fromWord">The source word to translate from (e.g., English)</param>
+    /// <param name="toWord">The target word to translate to (e.g., German)</param>
     public void AddWord(string fromWord, string toWord)
     {
-        // ADD YOUR CODE HERE
+        _words[fromWord] = toWord; // Add or update the translation
     }
 
     /// <summary>
-    /// Translates the from word into the word that this stores as the translation
+    /// Translates the provided word using the dictionary.
     /// </summary>
     /// <param name="fromWord">The word to translate</param>
-    /// <returns>The translated word or "???" if no translation is available</returns>
+    /// <returns>The translated word, or "???" if the word is not in the dictionary</returns>
     public string Translate(string fromWord)
     {
-        // ADD YOUR CODE HERE
-        return "";
+        if (_words.ContainsKey(fromWord))
+        {
+            return _words[fromWord]; // Return translation if it exists
+        }
+        return "???"; // Return default if not found
     }
 }

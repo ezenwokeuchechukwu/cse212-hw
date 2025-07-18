@@ -22,9 +22,34 @@
         Console.WriteLine($"Number of duplicates : {CountDuplicates(data)}");
     }
 
+     
+    // Add code here.
     private static int CountDuplicates(int[] data)
     {
-        // Add code here.
-        return 0;
+        Dictionary<int, int> counts = new Dictionary<int, int>();
+        int duplicateCount = 0;
+
+        foreach (int num in data)
+        {
+            if (counts.ContainsKey(num))
+            {
+                counts[num]++;
+            }
+            else
+            {
+                counts[num] = 1;
+            }
+        }
+
+        foreach (var kvp in counts)
+        {
+            if (kvp.Value > 1)
+            {
+                duplicateCount += kvp.Value - 1; // count only the extra appearances
+            }
+        }
+
+        return duplicateCount;
     }
-}
+
+    }
